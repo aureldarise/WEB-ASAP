@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPACT X Komunitas ASAP (Aksi Saatnya Peduli) - Karawang</title>
+    
+    <!-- Menggunakan Tailwind CSS via CDN untuk styling yang cepat, modern, dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi warna khusus -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        asap: {
+                            blue: '#3b82f6',       /* Biru Utama */
+                            lightblue: '#eff6ff',  /* Biru Muda untuk Background */
+                            orange: '#f97316',     /* Oranye untuk Aksen/Tombol */
+                            dark: '#1e293b'        /* Warna teks gelap */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Poppins dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS Tambahan -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scroll-anim {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .scroll-anim.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-700 antialiased">
+
+    <!-- Input tersembunyi untuk fitur ganti logo -->
+    <input type="file" id="logo-upload" class="hidden" accept="image/*" onchange="gantiLogoBebas(event)">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo / Nama Komunitas -->
+                <div class="flex-shrink-0 flex items-center">
+                    <div class="relative group cursor-pointer" onclick="document.getElementById('logo-upload').click(); event.stopPropagation();" title="Klik untuk ganti logo">
+                        <img src="logo.jpg" alt="Logo ASAP" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=ASAP&background=3b82f6&color=fff';" class="logo-img w-12 h-12 object-cover rounded-full mr-3 shadow-sm border border-gray-100 transition group-hover:opacity-75">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition rounded-full mr-3 bg-black bg-opacity-40">
+                            <i class="fas fa-camera text-white text-xs"></i>
+                        </div>
+                    </div>
+                    <div class="cursor-pointer" onclick="navigate('home')">
+                        <h1 class="font-bold text-xl text-asap-dark leading-tight">IMPACT X Komunitas ASAP</h1>
+                        <p class="text-xs text-asap-orange font-medium">Aksi Saatnya Peduli - Karawang</p>
+                    </div>
+                </div>
+                
+                <!-- Menu Desktop -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="navigate('home')" class="nav-link text-gray-600 hover:text-asap-blue font-medium transition active-nav">Beranda</button>
+                    <button onclick="navigate('elearning')" class="nav-link text-gray-600 hover:text-asap-blue font-medium transition">Ruang Belajar</button>
+                    <button onclick="navigate('donasi')" class="bg-asap-orange hover:bg-orange-600 text-white px-6 py-2 rounded-full font-semibold shadow-md transition transform hover:scale-105">Donasi</button>
+                </div>
+
+                <!-- Tombol Menu Mobile -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-asap-blue focus:outline-none text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mobile (Dropdown) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-700 hover:bg-asap-lightblue hover:text-asap-blue rounded-md">Beranda</button>
+                <button onclick="navigate('elearning'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-700 hover:bg-asap-lightblue hover:text-asap-blue rounded-md">Ruang Belajar</button>
+                <button onclick="navigate('donasi'); toggleMobileMenu()" class="block w-full text-center px-3 py-2 bg-asap-orange text-white rounded-md font-medium mt-4">Donasi Sekarang</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= KONTEN UTAMA ================= -->
+    <main>
+
+        <!-- 1. HALAMAN BERANDA (HOME) -->
+        <section id="home" class="page-section active">
+            <!-- Hero Section -->
+            <div class="bg-asap-lightblue py-20 lg:py-32 relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="text-center max-w-3xl mx-auto scroll-anim">
+                        <h2 class="text-4xl md:text-5xl font-bold text-asap-dark mb-6 leading-tight">
+                            Bersama ASAP, <span class="text-asap-blue">Wujudkan Pendidikan</span> untuk Semua
+                        </h2>
+                        <p class="text-lg text-gray-600 mb-10">
+                            Program ini disusun oleh mahasiswa PENMAS 23 Kelompok 5 untuk keperluan pemanfaatan media digital sebagai alat pembelajaran yang praktis.
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button onclick="navigate('elearning')" class="bg-white border-2 border-asap-blue text-asap-blue px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition">
+                                Pelajari Program
+                            </button>
+                            <button onclick="navigate('donasi')" class="bg-asap-orange text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 shadow-lg transition transform hover:-translate-y-1">
+                                <i class="fas fa-heart mr-2"></i> Donasi Sekarang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute top-0 left-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+                <div class="absolute top-0 right-0 w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+            </div>
+
+            <!-- Tentang Komunitas -->
+            <div class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center scroll-anim">
+                    <h3 class="text-sm font-bold text-asap-orange tracking-wider uppercase mb-2">Tentang Kami</h3>
+                    <h2 class="text-3xl font-bold text-asap-dark mb-12">Komunitas ASAP</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="p-6 bg-gray-50 rounded-2xl shadow-sm hover:shadow-md transition">
+                            <div class="w-16 h-16 bg-blue-100 text-asap-blue rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <h4 class="font-bold text-xl mb-2 text-asap-dark">Berdiri Sejak 2021</h4>
+                            <p class="text-gray-600 text-sm">Dimulai dari kepedulian sekelompok pemuda di Karawang saat masa pandemi untuk membantu pendidikan sekitar.</p>
+                        </div>
+                        <div class="p-6 bg-gray-50 rounded-2xl shadow-sm hover:shadow-md transition">
+                            <div class="w-16 h-16 bg-orange-100 text-asap-orange rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <h4 class="font-bold text-xl mb-2 text-asap-dark">Fokus Anak Marginal</h4>
+                            <p class="text-gray-600 text-sm">Target utama kami adalah anak-anak jalanan dan kurang mampu yang kesulitan mengakses pendidikan formal.</p>
+                        </div>
+                        <div class="p-6 bg-gray-50 rounded-2xl shadow-sm hover:shadow-md transition">
+                            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4 class="font-bold text-xl mb-2 text-asap-dark">Rumah Komunitas</h4>
+                            <p class="text-gray-600 text-sm">Komunitas ASAP bisa kalian temukan di Jl. Adiarsa Pusaka Rt.04 Rw.07 Kel. Adiarsa Barat Kec. Karawang Barat Kab. Karawang</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program Unggulan -->
+            <div class="py-20 bg-asap-lightblue">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-anim">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold text-asap-dark">Program Unggulan</h2>
+                        <p class="text-gray-600 mt-4">Aksi nyata yang kami lakukan secara rutin di Karawang.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition transform hover:-translate-y-2 border-t-4 border-asap-blue cursor-pointer" onclick="openDokumentasi('Happy Study', 'Dokumentasi kegiatan bimbingan belajar gratis setiap akhir pekan untuk mata pelajaran dasar.')">
+                            <div class="text-3xl text-asap-blue mb-4"><i class="fas fa-book-open"></i></div>
+                            <h4 class="font-bold text-lg mb-2">Happy Study</h4>
+                            <p class="text-gray-600 text-sm">Program bimbingan belajar gratis setiap akhir pekan untuk mata pelajaran dasar.</p>
+                            <p class="text-asap-blue text-xs font-semibold mt-4 flex items-center hover:underline"><i class="fas fa-images mr-1"></i> Lihat Dokumentasi</p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition transform hover:-translate-y-2 border-t-4 border-asap-orange cursor-pointer" onclick="openDokumentasi('Jumat Berbagi', 'Dokumentasi kegiatan penyaluran makanan sehat dan perlengkapan sekolah setiap hari Jumat.')">
+                            <div class="text-3xl text-asap-orange mb-4"><i class="fas fa-box-open"></i></div>
+                            <h4 class="font-bold text-lg mb-2">Jumat Berbagi</h4>
+                            <p class="text-gray-600 text-sm">Penyaluran makanan sehat dan perlengkapan sekolah setiap hari Jumat.</p>
+                            <p class="text-asap-orange text-xs font-semibold mt-4 flex items-center hover:underline"><i class="fas fa-images mr-1"></i> Lihat Dokumentasi</p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition transform hover:-translate-y-2 border-t-4 border-green-500 cursor-pointer" onclick="openDokumentasi('SHEREAL', 'Dokumentasi kegiatan seminar sosial tentang tema yang dibutuhkan komunitas setempat.')">
+                            <div class="text-3xl text-green-500 mb-4"><i class="fas fa-users"></i></div>
+                            <h4 class="font-bold text-lg mb-2">SHEREAL</h4>
+                            <p class="text-gray-600 text-sm">Seminar sosial tentang tema yang dibutuhkan komunitas setempat.</p>
+                            <p class="text-green-500 text-xs font-semibold mt-4 flex items-center hover:underline"><i class="fas fa-images mr-1"></i> Lihat Dokumentasi</p>
+                        </div>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition transform hover:-translate-y-2 border-t-4 border-purple-500 cursor-pointer" onclick="openDokumentasi('Recovery Respons', 'Dokumentasi kegiatan pemeriksaan kesehatan dasar gratis bekerja sama dengan relawan tenaga medis.')">
+                            <div class="text-3xl text-purple-500 mb-4"><i class="fas fa-stethoscope"></i></div>
+                            <h4 class="font-bold text-lg mb-2">Recovery Respons</h4>
+                            <p class="text-gray-600 text-sm">Pemeriksaan kesehatan dasar gratis bekerja sama dengan relawan tenaga medis.</p>
+                            <p class="text-purple-500 text-xs font-semibold mt-4 flex items-center hover:underline"><i class="fas fa-images mr-1"></i> Lihat Dokumentasi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action Banner -->
+            <div class="bg-asap-blue py-16 scroll-anim">
+                <div class="max-w-4xl mx-auto px-4 text-center text-white">
+                    <h2 class="text-3xl font-bold mb-6">Jadilah Bagian dari Perubahan</h2>
+                    <p class="mb-8 text-blue-100">Kami selalu membuka pintu bagi siapapun yang ingin berkontribusi, baik sebagai relawan pengajar maupun donatur.</p>
+                    <div class="flex justify-center gap-4">
+                        <a href="https://asapcomunity.taplink.id/" target="_blank" class="bg-white text-asap-blue px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition">Jadi Relawan</a>
+                        <button onclick="navigate('donasi')" class="bg-asap-orange border border-asap-orange text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition">Donasi Sekarang</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolaborasi Penmas Unsika -->
+            <div class="py-16 bg-gray-50 border-t border-gray-200 scroll-anim">
+                <div class="max-w-5xl mx-auto px-4 text-center">
+                    <h3 class="text-xl md:text-2xl font-bold text-asap-dark mb-4 uppercase tracking-wide">
+                        Program Ini Berkolaborasi Bersama <br class="hidden md:block"> <span class="text-asap-blue">PENMAS UNSIKA</span>
+                    </h3>
+                    <div class="w-24 h-1 bg-asap-orange mx-auto mb-8 rounded-full"></div>
+                    <p class="text-gray-500 text-sm mb-6 uppercase tracking-wider font-semibold">Tim Pengembang:</p>
+                    <div class="flex flex-wrap justify-center gap-3 md:gap-4">
+                        <span class="bg-white px-5 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-gray-100 font-medium text-gray-700 text-sm md:text-base transition hover:shadow-md hover:-translate-y-1 transform">1. Ahmad Rasyid Fadil</span>
+                        <span class="bg-white px-5 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-gray-100 font-medium text-gray-700 text-sm md:text-base transition hover:shadow-md hover:-translate-y-1 transform">2. Aurel Kurnia Darise</span>
+                        <span class="bg-white px-5 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-gray-100 font-medium text-gray-700 text-sm md:text-base transition hover:shadow-md hover:-translate-y-1 transform">3. Dinda Ayrizha Isnaeni</span>
+                        <span class="bg-white px-5 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-gray-100 font-medium text-gray-700 text-sm md:text-base transition hover:shadow-md hover:-translate-y-1 transform">4. Sintia Ramadhani</span>
+                        <span class="bg-white px-5 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-gray-100 font-medium text-gray-700 text-sm md:text-base transition hover:shadow-md hover:-translate-y-1 transform">5. Sefia Aeni Farhati</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. HALAMAN PEMBELAJARAN (E-LEARNING) -->
+        <section id="elearning" class="page-section">
+            <div class="bg-gradient-to-b from-blue-50 to-white py-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Header Ruang Belajar -->
+                    <div class="text-center max-w-2xl mx-auto mb-16 scroll-anim">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png" alt="E-Learning Icon" class="w-24 h-24 mx-auto mb-4 opacity-90">
+                        <h2 class="text-4xl font-bold text-asap-dark mb-4">Ruang Belajar ASAP</h2>
+                        <p class="text-gray-600">Platform belajar mandiri yang dirancang khusus dengan warna ceria agar adik-adik binaan tetap semangat belajar di mana saja.</p>
+                    </div>
+
+                    <!-- Filter Kategori -->
+                    <div class="flex justify-center gap-2 mb-10 overflow-x-auto pb-4 scroll-anim">
+                        <button class="bg-asap-blue text-white px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap">Semua Materi</button>
+                        <button class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap">Membaca</button>
+                        <button class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap">Matematika</button>
+                        <button class="bg-gray-100 text-gray-600 hover:bg-gray-200 px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap">Video</button>
+                    </div>
+
+                    <!-- Grid Materi Belajar -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg border-2 border-red-100 hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 scroll-anim" 
+                             onclick="openMateriDetail('Belajar Membaca Dasar', 'Bahasa', 'red', 'materi-list-membaca')">
+                            <div class="bg-red-400 h-32 flex justify-center items-center relative overflow-hidden">
+                                <i class="fas fa-font text-6xl text-white opacity-80"></i>
+                                <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-white opacity-20 rounded-full"></div>
+                            </div>
+                            <div class="p-6">
+                                <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Bahasa</span>
+                                <h3 class="font-bold text-xl mt-3 mb-2 text-asap-dark">Belajar Membaca Dasar</h3>
+                                <p class="text-gray-500 text-sm mb-4">Pengenalan huruf dan suku kata untuk kelas 1-2 SD.</p>
+                                <button class="text-red-500 font-semibold text-sm flex items-center hover:text-red-700">Mulai Belajar <i class="fas fa-arrow-right ml-2"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg border-2 border-green-100 hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 scroll-anim"
+                             onclick="openMateriDetail('Matematika Menyenangkan', 'Berhitung', 'green', 'materi-list-matematika')">
+                            <div class="bg-green-400 h-32 flex justify-center items-center relative overflow-hidden">
+                                <i class="fas fa-calculator text-6xl text-white opacity-80"></i>
+                                <div class="absolute -top-6 -left-6 w-24 h-24 bg-white opacity-20 rounded-full"></div>
+                            </div>
+                            <div class="p-6">
+                                <span class="bg-green-100 text-green-600 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Berhitung</span>
+                                <h3 class="font-bold text-xl mt-3 mb-2 text-asap-dark">Matematika Menyenangkan</h3>
+                                <p class="text-gray-500 text-sm mb-4">Penjumlahan dan pengurangan menggunakan visual menarik.</p>
+                                <button class="text-green-500 font-semibold text-sm flex items-center hover:text-green-700">Mulai Belajar <i class="fas fa-arrow-right ml-2"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-3xl overflow-hidden shadow-lg border-2 border-purple-100 hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 scroll-anim"
+                             onclick="openMateriDetail('Pengetahuan Umum', 'Eksplorasi', 'purple', 'materi-list-pengetahuan')">
+                            <div class="bg-purple-400 h-32 flex justify-center items-center relative overflow-hidden">
+                                <i class="fas fa-globe text-6xl text-white opacity-80"></i>
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-white opacity-10 rounded-full"></div>
+                            </div>
+                            <div class="p-6">
+                                <span class="bg-purple-100 text-purple-600 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Eksplorasi</span>
+                                <h3 class="font-bold text-xl mt-3 mb-2 text-asap-dark">Pengetahuan Umum</h3>
+                                <p class="text-gray-500 text-sm mb-4">Fakta menarik tentang dunia, alam, dan lingkungan sekitar kita.</p>
+                                <button class="text-purple-500 font-semibold text-sm flex items-center hover:text-purple-700">Mulai Belajar <i class="fas fa-arrow-right ml-2"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2.5 HALAMAN DETAIL MATERI & UPLOAD MATERI -->
+        <section id="materi-detail" class="page-section">
+            <div class="py-16 bg-gray-50 min-h-screen">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <button onclick="navigate('elearning')" class="mb-8 flex items-center text-gray-500 hover:text-asap-blue font-medium transition">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm mr-3">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                        Kembali ke Ruang Belajar
+                    </button>
+
+                    <!-- Header Bahan Ajar -->
+                    <div class="bg-white rounded-3xl p-8 shadow-sm mb-8 flex flex-col md:flex-row items-start md:items-center gap-6 border-l-8 border-red-500" id="detail-header-card">
+                        <div class="w-20 h-20 bg-red-100 text-red-500 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0" id="detail-icon-container">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div>
+                            <span id="detail-kategori" class="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Bahasa</span>
+                            <h2 id="detail-title" class="text-3xl font-bold text-asap-dark mt-2">Bahan Ajar</h2>
+                            <p class="text-gray-500 mt-2">Kumpulan modul dan materi pembelajaran. Relawan dapat mengunggah file materi secara mandiri di sini.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Kiri: Daftar File Materi -->
+                        <div class="lg:col-span-2 space-y-4">
+                            <h3 class="font-bold text-xl text-asap-dark mb-4 flex items-center"><i class="fas fa-folder-open text-yellow-500 mr-2"></i> Daftar File Tersedia</h3>
+                            
+                            <!-- Wadah File: Membaca -->
+                            <div id="materi-list-membaca" class="materi-list-container space-y-4 hidden">
+                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between hover:shadow-md transition relative group">
+                                    <div class="flex items-center gap-4 overflow-hidden">
+                                        <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-file-pdf text-2xl text-red-500"></i>
+                                        </div>
+                                        <div class="truncate">
+                                            <h4 class="font-bold text-gray-800 truncate">Modul_Membaca_Suku_Kata_A.pdf</h4>
+                                            <p class="text-xs text-gray-500">Diunggah pada: 20 Okt 2024 • 1.2 MB</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="alert('Mendownload materi...')" class="text-asap-blue hover:text-blue-700 bg-blue-50 w-10 h-10 rounded-xl flex items-center justify-center transition flex-shrink-0"><i class="fas fa-download"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Wadah File: Matematika -->
+                            <div id="materi-list-matematika" class="materi-list-container space-y-4 hidden">
+                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between hover:shadow-md transition relative group">
+                                    <div class="flex items-center gap-4 overflow-hidden">
+                                        <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-file-pdf text-2xl text-red-500"></i>
+                                        </div>
+                                        <div class="truncate">
+                                            <h4 class="font-bold text-gray-800 truncate">Latihan_Penjumlahan_Dasar_1.pdf</h4>
+                                            <p class="text-xs text-gray-500">Diunggah pada: 18 Okt 2024 • 2.1 MB</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="alert('Mendownload materi...')" class="text-asap-blue hover:text-blue-700 bg-blue-50 w-10 h-10 rounded-xl flex items-center justify-center transition flex-shrink-0"><i class="fas fa-download"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Wadah File: Pengetahuan Umum -->
+                            <div id="materi-list-pengetahuan" class="materi-list-container space-y-4 hidden">
+                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between hover:shadow-md transition relative group">
+                                    <div class="flex items-center gap-4 overflow-hidden">
+                                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-file-word text-2xl text-blue-500"></i>
+                                        </div>
+                                        <div class="truncate">
+                                            <h4 class="font-bold text-gray-800 truncate">Mengenal_Pahlawan_Nasional.docx</h4>
+                                            <p class="text-xs text-gray-500">Diunggah pada: 05 Okt 2024 • 1.5 MB</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="alert('Mendownload materi...')" class="text-asap-blue hover:text-blue-700 bg-blue-50 w-10 h-10 rounded-xl flex items-center justify-center transition flex-shrink-0"><i class="fas fa-download"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kanan: Form Upload Materi -->
+                        <div>
+                            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 sticky top-28">
+                                <h3 class="font-bold text-lg text-asap-dark mb-2"><i class="fas fa-cloud-upload-alt text-asap-blue mr-2"></i> Upload Materi Baru</h3>
+                                <p class="text-sm text-gray-500 mb-6">Format: PDF, DOC, DOCX. Maks: 10MB.</p>
+                                
+                                <form id="upload-form" onsubmit="handleUpload(event)">
+                                    <div class="mb-5 relative group">
+                                        <div class="border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center group-hover:bg-blue-50 group-hover:border-asap-blue transition cursor-pointer">
+                                            <input type="file" id="file-input" accept=".pdf,.doc,.docx" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="updateFileName()">
+                                            <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-white transition">
+                                                <i class="fas fa-file-upload text-3xl text-gray-400 group-hover:text-asap-blue"></i>
+                                            </div>
+                                            <p id="file-name-display" class="text-sm font-medium text-gray-600">Klik atau seret file ke sini</p>
+                                            <p class="text-xs text-gray-400 mt-1">Pilih file dari perangkat Anda</p>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="w-full bg-asap-dark text-white font-bold py-3.5 rounded-xl hover:bg-gray-800 transition shadow-md flex justify-center items-center">
+                                        <i class="fas fa-paper-plane mr-2"></i> Simpan Materi
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. HALAMAN DONASI -->
+        <section id="donasi" class="page-section">
+            <div class="py-16 bg-gray-50">
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12 scroll-anim">
+                        <span class="inline-block p-4 bg-orange-100 text-asap-orange rounded-full mb-4">
+                            <i class="fas fa-hand-holding-heart text-4xl"></i>
+                        </span>
+                        <h2 class="text-4xl font-bold text-asap-dark mb-4">Dukung Pendidikan Mereka</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">Setiap rupiah yang Anda donasikan akan kami gunakan untuk operasional bimbingan belajar, pembelian alat tulis, dan gizi anak-anak binaan di Karawang.</p>
+                    </div>
+
+                    <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row scroll-anim">
+                        <div class="w-full md:w-2/5 bg-asap-blue text-white p-8 md:p-10 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-4">Transparansi Dana</h3>
+                                <p class="text-blue-100 text-sm mb-6">Kami berkomitmen untuk melaporkan setiap pemasukan dan pengeluaran secara rutin setiap bulannya di media sosial kami.</p>
+                                
+                                <div class="mt-8">
+                                    <div class="flex justify-between text-sm mb-2 font-medium">
+                                        <span>Target: Rp 5.000.000</span>
+                                        <span>Terkumpul 65%</span>
+                                    </div>
+                                    <div class="w-full bg-blue-900 rounded-full h-3">
+                                        <div class="bg-asap-orange h-3 rounded-full" style="width: 65%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-10 pt-6 border-t border-blue-400">
+                                <p class="font-medium mb-2">Punya pertanyaan?</p>
+                                <p class="text-sm text-blue-100"><i class="fab fa-whatsapp mr-2"></i> 0812-3456-7890</p>
+                                <p class="text-sm text-blue-100 mt-1"><i class="far fa-envelope mr-2"></i> donasi@komunitas-asap.org</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full md:w-3/5 p-8 md:p-10">
+                            <h3 class="text-xl font-bold text-asap-dark mb-6">Pilih Nominal Donasi</h3>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                                <button onclick="setNominal(10000, this)" class="nominal-btn border-2 border-gray-200 py-3 rounded-xl font-semibold text-gray-600 hover:border-asap-orange hover:text-asap-orange transition">Rp 10.000</button>
+                                <button onclick="setNominal(25000, this)" class="nominal-btn border-2 border-asap-orange bg-orange-50 text-asap-orange py-3 rounded-xl font-semibold transition">Rp 25.000</button>
+                                <button onclick="setNominal(50000, this)" class="nominal-btn border-2 border-gray-200 py-3 rounded-xl font-semibold text-gray-600 hover:border-asap-orange hover:text-asap-orange transition">Rp 50.000</button>
+                                <button onclick="setNominal(100000, this)" class="nominal-btn border-2 border-gray-200 py-3 rounded-xl font-semibold text-gray-600 hover:border-asap-orange hover:text-asap-orange transition">Rp 100.000</button>
+                                <button onclick="toggleCustomNominal()" class="nominal-btn border-2 border-gray-200 py-3 rounded-xl font-semibold text-gray-600 hover:border-asap-orange hover:text-asap-orange transition col-span-2 sm:col-span-2">Lainnya</button>
+                            </div>
+
+                            <div id="custom-nominal-container" class="hidden mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nominal Lainnya (Rp)</label>
+                                <input type="number" id="input-nominal" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-asap-blue focus:border-asap-blue outline-none transition" placeholder="Contoh: 150000" value="25000">
+                            </div>
+
+                            <form onsubmit="prosesDonasi(event)">
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap (Boleh Samaran)</label>
+                                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-asap-blue focus:border-asap-blue outline-none bg-gray-50">
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email / No. WhatsApp</label>
+                                    <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-asap-blue focus:border-asap-blue outline-none bg-gray-50" placeholder="Untuk laporan bukti donasi">
+                                </div>
+                                
+                                <div class="mb-8">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Metode Pembayaran</label>
+                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-asap-blue focus:border-asap-blue outline-none bg-gray-50">
+                                        <option value="qris">QRIS (Gopay, OVO, Dana, LinkAja)</option>
+                                        <option value="bca">Transfer BCA - 1234567890 a.n IMPACT X Komunitas ASAP</option>
+                                        <option value="bni">Transfer BNI - 0987654321 a.n IMPACT X Komunitas ASAP</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="w-full bg-asap-orange hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg transition transform hover:-translate-y-1 text-lg">
+                                    Lanjut Pembayaran
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. HALAMAN DOKUMENTASI -->
+        <section id="dokumentasi" class="page-section">
+            <div class="py-16 bg-gray-50 min-h-screen">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <button onclick="navigate('home')" class="mb-8 flex items-center text-gray-500 hover:text-asap-blue font-medium transition">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm mr-3">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                        Kembali ke Beranda
+                    </button>
+
+                    <div class="bg-white rounded-3xl p-8 shadow-sm mb-8 flex flex-col md:flex-row items-start md:items-center gap-6 border-l-8 border-asap-blue">
+                        <div class="w-20 h-20 bg-blue-100 text-asap-blue rounded-2xl flex items-center justify-center text-4xl flex-shrink-0">
+                            <i class="fas fa-camera-retro"></i>
+                        </div>
+                        <div>
+                            <span class="bg-blue-100 text-asap-blue text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Galeri Kegiatan</span>
+                            <h2 id="dok-title" class="text-3xl font-bold text-asap-dark mt-2">Dokumentasi Happy Study</h2>
+                            <p id="dok-desc" class="text-gray-500 mt-2">Kumpulan foto dan dokumentasi kegiatan. Relawan dapat mengunggah foto terbaru di sini.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2">
+                            <h3 class="font-bold text-xl text-asap-dark mb-4 flex items-center"><i class="fas fa-images text-asap-orange mr-2"></i> Foto Terbaru</h3>
+                            
+                            <div id="dokumentasi-gallery" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition relative group">
+                                    <button onclick="hapusFoto(this)" class="absolute top-3 right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-md z-10 hover:bg-red-600 focus:outline-none transform hover:scale-110" title="Hapus Foto">
+                                        <i class="fas fa-trash-alt text-xs"></i>
+                                    </button>
+                                    <div class="h-48 bg-gray-200 relative">
+                                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Dokumentasi 1" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition pointer-events-none"></div>
+                                    </div>
+                                    <div class="p-4">
+                                        <p class="font-bold text-gray-800 text-sm truncate">Belajar_Membaca_Sesi_1.jpg</p>
+                                        <p class="text-xs text-gray-500 mt-1">Diunggah: 15 Okt 2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 sticky top-28">
+                                <h3 class="font-bold text-lg text-asap-dark mb-2"><i class="fas fa-cloud-upload-alt text-asap-blue mr-2"></i> Upload Dokumentasi</h3>
+                                <p class="text-sm text-gray-500 mb-6">Format: JPG, PNG. Maks: 5MB.</p>
+                                
+                                <form id="dok-upload-form" onsubmit="handleDokumentasiUpload(event)">
+                                    <div class="mb-5 relative group">
+                                        <div class="border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center group-hover:bg-blue-50 group-hover:border-asap-blue transition cursor-pointer">
+                                            <input type="file" id="dok-file-input" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="updateDokFileName()">
+                                            <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-white transition">
+                                                <i class="fas fa-image text-3xl text-gray-400 group-hover:text-asap-blue"></i>
+                                            </div>
+                                            <p id="dok-file-name" class="text-sm font-medium text-gray-600">Klik atau seret foto ke sini</p>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="w-full bg-asap-orange text-white font-bold py-3.5 rounded-xl hover:bg-orange-600 transition shadow-md flex justify-center items-center">
+                                        <i class="fas fa-paper-plane mr-2"></i> Unggah Foto
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-asap-dark text-gray-300 py-10 border-t-4 border-asap-blue">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-white text-xl font-bold mb-4 flex items-center">
+                        <img src="logo.jpg" alt="Logo ASAP" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=ASAP&background=3b82f6&color=fff';" onclick="document.getElementById('logo-upload').click()" title="Klik untuk ganti logo" class="logo-img w-8 h-8 object-cover rounded-full mr-2 border border-gray-600 cursor-pointer hover:opacity-75 transition">
+                        IMPACT X Komunitas ASAP
+                    </h3>
+                    <p class="text-sm mb-4">Program ini disusun oleh mahasiswa PENMAS 23 Kelompok 5 untuk keperluan pemanfaatan media digital sebagai alat pembelajaran yang praktis.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Hubungi Kami</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><i class="fas fa-map-marker-alt w-5 text-asap-orange"></i> Basecamp: Jl. Galuh Mas Raya, Karawang</li>
+                        <li><i class="fab fa-whatsapp w-5 text-asap-orange"></i> 0812-3456-7890</li>
+                        <li><i class="far fa-envelope w-5 text-asap-orange"></i> halo@komunitas-asap.org</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Ikuti Kegiatan Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/asap_comunity?igsh=YXNqOXQ1N2syc2Fi" target="_blank" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-asap-blue text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/aksisaatnyapeduli/" target="_blank" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-blue-600 text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.threads.com/@asap_comunity" target="_blank" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-black text-white transition"><i class="fa-brands fa-threads"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2024 IMPACT X Komunitas ASAP Karawang. Dibuat dengan ❤️ untuk pendidikan Indonesia.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        function navigate(pageId) {
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            } else {
+                console.warn("Halaman tidak ditemukan:", pageId);
+                return;
+            }
+
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach(link => {
+                link.classList.remove('text-asap-blue', 'font-bold');
+                link.classList.add('text-gray-600');
+            });
+            
+            if(pageId !== 'donasi') {
+                const activeLinks = document.querySelectorAll(`.nav-link[onclick="navigate('${pageId}')"]`);
+                activeLinks.forEach(link => {
+                    link.classList.remove('text-gray-600');
+                    link.classList.add('text-asap-blue', 'font-bold');
+                });
+            }
+
+            window.scrollTo(0, 0);
+            handleScrollAnimation();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        let activeMateriListId = '';
+
+        function openMateriDetail(title, kategori, colorTheme, listId) {
+            document.getElementById('detail-title').textContent = title;
+            document.getElementById('detail-kategori').textContent = kategori;
+            
+            const headerCard = document.getElementById('detail-header-card');
+            const iconContainer = document.getElementById('detail-icon-container');
+            const kategoriBadge = document.getElementById('detail-kategori');
+
+            headerCard.className = 'bg-white rounded-3xl p-8 shadow-sm mb-8 flex flex-col md:flex-row items-start md:items-center gap-6 border-l-8';
+            iconContainer.className = 'w-20 h-20 rounded-2xl flex items-center justify-center text-4xl flex-shrink-0';
+            kategoriBadge.className = 'text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide';
+
+            if(colorTheme === 'red') {
+                headerCard.classList.add('border-red-500');
+                iconContainer.classList.add('bg-red-100', 'text-red-500');
+                kategoriBadge.classList.add('bg-red-100', 'text-red-600');
+            } else if(colorTheme === 'green') {
+                headerCard.classList.add('border-green-500');
+                iconContainer.classList.add('bg-green-100', 'text-green-500');
+                kategoriBadge.classList.add('bg-green-100', 'text-green-600');
+            } else if(colorTheme === 'purple') {
+                headerCard.classList.add('border-purple-500');
+                iconContainer.classList.add('bg-purple-100', 'text-purple-500');
+                kategoriBadge.classList.add('bg-purple-100', 'text-purple-600');
+            }
+
+            document.querySelectorAll('.materi-list-container').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            if(listId) {
+                document.getElementById(listId).classList.remove('hidden');
+                activeMateriListId = listId; 
+            }
+
+            navigate('materi-detail');
+        }
+
+        function updateFileName() {
+            const input = document.getElementById('file-input');
+            const display = document.getElementById('file-name-display');
+            if(input.files.length > 0) {
+                display.textContent = input.files[0].name;
+                display.classList.add('text-asap-blue');
+            } else {
+                display.textContent = 'Klik atau seret file ke sini';
+                display.classList.remove('text-asap-blue');
+            }
+        }
+
+        function handleUpload(e) {
+            e.preventDefault(); 
+            const input = document.getElementById('file-input');
+            if(input.files.length === 0) return;
+
+            const file = input.files[0];
+            let size = (file.size / 1024).toFixed(0) + ' KB';
+            if(file.size > 1024 * 1024) size = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+            
+            let iconClass = "fas fa-file-alt text-gray-500";
+            let bgClass = "bg-gray-50";
+            if(file.name.toLowerCase().endsWith('.pdf')) {
+                iconClass = "fas fa-file-pdf text-red-500";
+                bgClass = "bg-red-50";
+            }
+            else if(file.name.toLowerCase().endsWith('.doc') || file.name.toLowerCase().endsWith('.docx')) {
+                iconClass = "fas fa-file-word text-blue-500";
+                bgClass = "bg-blue-50";
+            }
+
+            const newItemHtml = `
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-asap-blue flex items-center justify-between hover:shadow-md transition animate-pulse">
+                    <div class="flex items-center gap-4 overflow-hidden">
+                        <div class="w-12 h-12 ${bgClass} rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="${iconClass} text-2xl"></i>
+                        </div>
+                        <div class="truncate">
+                            <h4 class="font-bold text-gray-800 truncate">${file.name}</h4>
+                            <p class="text-xs text-green-600 font-medium">Baru saja diunggah • ${size}</p>
+                        </div>
+                    </div>
+                    <button onclick="alert('Mendownload materi...')" class="text-asap-blue hover:text-blue-700 bg-blue-50 w-10 h-10 rounded-xl flex items-center justify-center transition flex-shrink-0"><i class="fas fa-download"></i></button>
+                </div>
+            `;
+
+            const listContainer = document.getElementById(activeMateriListId);
+            if(listContainer) {
+                listContainer.insertAdjacentHTML('afterbegin', newItemHtml);
+                setTimeout(() => {
+                    listContainer.firstElementChild.classList.remove('animate-pulse', 'border-asap-blue');
+                    listContainer.firstElementChild.classList.add('border-gray-100');
+                }, 2000);
+            }
+
+            alert(`Yey! File "${file.name}" berhasil diunggah ke kategori ini.`);
+            document.getElementById('upload-form').reset();
+            updateFileName();
+        }
+
+        function setNominal(amount, btnElement) {
+            const buttons = document.querySelectorAll('.nominal-btn');
+            buttons.forEach(btn => {
+                btn.className = 'nominal-btn border-2 border-gray-200 py-3 rounded-xl font-semibold text-gray-600 hover:border-asap-orange hover:text-asap-orange transition';
+                if(btn.textContent === 'Lainnya') btn.classList.add('col-span-2', 'sm:col-span-2');
+            });
+
+            btnElement.className = 'nominal-btn border-2 border-asap-orange bg-orange-50 text-asap-orange py-3 rounded-xl font-semibold transition';
+            document.getElementById('custom-nominal-container').classList.add('hidden');
+            document.getElementById('input-nominal').value = amount;
+        }
+
+        function toggleCustomNominal() {
+            const buttons = document.querySelectorAll('.nominal-btn');
+            buttons.forEach(btn => {
+                btn.className = 'nominal-btn border-2 border-gray-200 py-3 rounded-xl font-semibold text-gray-600 hover:border-asap-orange hover:text-asap-orange transition';
+            });
+            
+            const btnLainnya = Array.from(buttons).find(b => b.textContent === 'Lainnya');
+            btnLainnya.className = 'nominal-btn border-2 border-asap-orange bg-orange-50 text-asap-orange py-3 rounded-xl font-semibold transition col-span-2 sm:col-span-2';
+
+            document.getElementById('custom-nominal-container').classList.remove('hidden');
+            document.getElementById('input-nominal').value = '';
+            document.getElementById('input-nominal').focus();
+        }
+
+        function prosesDonasi(e) {
+            e.preventDefault(); 
+            const nominal = document.getElementById('input-nominal').value;
+            if(!nominal || nominal < 10000) {
+                alert('Mohon masukkan nominal donasi minimal Rp 10.000');
+                return;
+            }
+            alert(`Terima kasih! Sistem akan mengarahkan Anda ke halaman pembayaran untuk donasi sebesar Rp ${new Intl.NumberFormat('id-ID').format(nominal)}.`);
+        }
+
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.scroll-anim');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                    }
+                });
+            }, { threshold: 0.1 }); 
+
+            elements.forEach(el => {
+                el.classList.remove('show'); 
+                observer.observe(el);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            navigate('home');
+        });
+
+        function gantiLogoBebas(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const logos = document.querySelectorAll('.logo-img');
+                    logos.forEach(logo => {
+                        logo.src = e.target.result;
+                    });
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function openDokumentasi(title, desc) {
+            document.getElementById('dok-title').textContent = 'Dokumentasi ' + title;
+            document.getElementById('dok-desc').textContent = desc;
+            navigate('dokumentasi');
+        }
+
+        function updateDokFileName() {
+            const input = document.getElementById('dok-file-input');
+            const display = document.getElementById('dok-file-name');
+            if(input.files.length > 0) {
+                display.textContent = input.files[0].name;
+                display.classList.add('text-asap-blue');
+            } else {
+                display.textContent = 'Klik atau seret foto ke sini';
+                display.classList.remove('text-asap-blue');
+            }
+        }
+
+        function handleDokumentasiUpload(e) {
+            e.preventDefault(); 
+            const input = document.getElementById('dok-file-input');
+            if(input.files.length === 0) return;
+
+            const file = input.files[0];
+            const date = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imgData = event.target.result; 
+
+                const newGalleryItemHtml = `
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-asap-orange hover:shadow-md transition relative group" style="animation: fadeIn 0.5s ease-out;">
+                        <button onclick="hapusFoto(this)" class="absolute top-3 right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-md z-10 hover:bg-red-600 focus:outline-none transform hover:scale-110" title="Hapus Foto">
+                            <i class="fas fa-trash-alt text-xs"></i>
+                        </button>
+                        <div class="h-48 bg-gray-200 relative">
+                            <img src="${imgData}" alt="Dokumentasi Baru" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition pointer-events-none"></div>
+                        </div>
+                        <div class="p-4">
+                            <p class="font-bold text-gray-800 text-sm truncate">${file.name}</p>
+                            <p class="text-xs text-asap-orange font-medium mt-1">Baru saja diunggah • ${date}</p>
+                        </div>
+                    </div>
+                `;
+
+                const galleryContainer = document.getElementById('dokumentasi-gallery');
+                galleryContainer.insertAdjacentHTML('afterbegin', newGalleryItemHtml);
+
+                setTimeout(() => {
+                    galleryContainer.firstElementChild.classList.remove('border-asap-orange');
+                    galleryContainer.firstElementChild.classList.add('border-gray-100');
+                }, 3000);
+
+                alert(`Mantap! Foto "${file.name}" berhasil ditambahkan ke Galeri Dokumentasi.`);
+                document.getElementById('dok-upload-form').reset();
+                updateDokFileName();
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function hapusFoto(btnElement) {
+            if(confirm("Apakah Anda yakin ingin menghapus dokumentasi ini?")) {
+                const cardItem = btnElement.closest('.group');
+                if(cardItem) {
+                    cardItem.style.opacity = '0';
+                    cardItem.style.transform = 'scale(0.9)';
+                    cardItem.style.transition = 'all 0.3s ease';
+                    
+                    setTimeout(() => {
+                        cardItem.remove();
+                    }, 300);
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
